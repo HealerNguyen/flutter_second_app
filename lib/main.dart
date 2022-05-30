@@ -3,6 +3,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:second_app/models/transaction.dart';
 import 'package:intl/intl.dart';
@@ -11,6 +12,8 @@ import 'package:second_app/widgets/new_transaction.dart';
 import 'package:second_app/widgets/transaction_list.dart';
 
 void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(MyApp());
 }
 
@@ -77,8 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    final appBar = AppBar(
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.home), onPressed: () => {},
@@ -103,17 +105,26 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () => {},
           ),
         ],
-      ),
+      );
+    return Scaffold(
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
             // mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Chart(_recentTransactions),
+              Container(
+                child: Chart(_recentTransactions),
+                height: (MediaQuery.of(context).size.height - 
+                appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.3,
+              ),
               // Expanded(
                 // child: TransactionList(_transactions,_deleteTransaction)
               // )
-              TransactionList(_transactions,_deleteTransaction)
+              Container(
+                child: TransactionList(_transactions,_deleteTransaction),
+                height: (MediaQuery.of(context).size.height - appBar.preferredSize.height) * 0.7,
+              )
             ]),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

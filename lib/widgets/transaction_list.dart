@@ -15,7 +15,6 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return !transactions.isEmpty
         ? Container(
-            height: 470,
             child: ListView.builder(
               itemBuilder: (ctx, index) {
                 return Card(
